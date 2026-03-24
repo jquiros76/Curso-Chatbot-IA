@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso: Chatbot IA para WhatsApp Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00c853;
+    --green-dark: #008f3a;
+    --green-glow: #00c85340;
+    --bg: #0a0f0a;
+    --bg2: #0f160f;
+    --bg3: #141d14;
+    --card: #111811;
+    --border: #1e2e1e;
+    --text: #e8f0e8;
+    --muted: #7a9a7a;
+    --white: #ffffff;
+    --accent: #b9ff66;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* NOISE TEXTURE */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.03’/%3E%3C/svg%3E”);
+pointer-events: none;
+z-index: 0;
+opacity: 0.4;
+}
+
+/* HEADER */
+.hero {
+position: relative;
+padding: 60px 40px 50px;
+border-bottom: 1px solid var(–border);
+overflow: hidden;
+}
+
+.hero::after {
+content: ‘’;
+position: absolute;
+top: -100px;
+right: -100px;
+width: 500px;
+height: 500px;
+background: radial-gradient(circle, var(–green-glow) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.badge {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: var(–green-glow);
+border: 1px solid var(–green);
+border-radius: 100px;
+padding: 6px 16px;
+font-size: 12px;
+font-weight: 500;
+color: var(–green);
+letter-spacing: 0.08em;
+text-transform: uppercase;
+margin-bottom: 24px;
+animation: fadeDown 0.6s ease both;
+}
+
+.badge-dot {
+width: 6px; height: 6px;
+border-radius: 50%;
+background: var(–green);
+animation: pulse 2s infinite;
+}
+
+.hero h1 {
+font-family: ‘Syne’, sans-serif;
+font-size: clamp(2rem, 5vw, 3.8rem);
+font-weight: 800;
+line-height: 1.05;
+color: var(–white);
+max-width: 700px;
+animation: fadeDown 0.6s 0.1s ease both;
+}
+
+.hero h1 span {
+color: var(–accent);
+position: relative;
+}
+
+.hero-sub {
+margin-top: 20px;
+font-size: 1.05rem;
+color: var(–muted);
+max-width: 520px;
+line-height: 1.7;
+font-weight: 300;
+animation: fadeDown 0.6s 0.2s ease both;
+}
+
+.hero-meta {
+display: flex;
+gap: 32px;
+margin-top: 32px;
+flex-wrap: wrap;
+animation: fadeDown 0.6s 0.3s ease both;
+}
+
+.meta-item {
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 0.85rem;
+color: var(–muted);
+}
+
+.meta-item strong { color: var(–text); font-weight: 500; }
+.meta-icon { font-size: 1rem; }
+
+/* LAYOUT */
+.layout {
+display: grid;
+grid-template-columns: 280px 1fr;
+min-height: calc(100vh - 240px);
+position: relative;
+z-index: 1;
+}
+
+/* SIDEBAR */
+.sidebar {
+border-right: 1px solid var(–border);
+padding: 32px 0;
+position: sticky;
+top: 0;
+height: 100vh;
+overflow-y: auto;
+background: var(–bg2);
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(–border); border-radius: 2px; }
+
+.sidebar-label {
+font-size: 0.65rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–muted);
+padding: 0 24px;
+margin-bottom: 12px;
+font-weight: 600;
+}
+
+.module-group { margin-bottom: 8px; }
+
+.module-btn {
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 12px 24px;
+background: none;
+border: none;
+cursor: pointer;
+color: var(–muted);
+font-family: ‘Syne’, sans-serif;
+font-size: 0.82rem;
+font-weight: 600;
+text-align: left;
+letter-spacing: 0.02em;
+transition: color 0.2s;
+}
+
+.module-btn:hover { color: var(–text); }
+.module-btn.active { color: var(–accent); }
+
+.module-num {
+font-size: 0.7rem;
+background: var(–bg3);
+border: 1px solid var(–border);
+border-radius: 4px;
+padding: 2px 7px;
+color: var(–muted);
+}
+
+.lesson-list { padding-left: 0; }
+
+.lesson-btn {
+width: 100%;
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 9px 24px 9px 36px;
+background: none;
+border: none;
+cursor: pointer;
+color: var(–muted);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 0.82rem;
+font-weight: 400;
+text-align: left;
+transition: all 0.2s;
+border-left: 2px solid transparent;
+}
+
+.lesson-btn:hover { color: var(–text); background: var(–bg3); }
+
+.lesson-btn.active {
+color: var(–green);
+background: var(–green-glow);
+border-left-color: var(–green);
+}
+
+.lesson-btn.completed .check { color: var(–green); }
+.check { font-size: 0.75rem; opacity: 0.5; flex-shrink: 0; }
+.lesson-btn.completed .check { opacity: 1; }
+
+/* PROGRESS BAR */
+.progress-wrap {
+padding: 20px 24px 0;
+margin-bottom: 24px;
+}
+
+.progress-label {
+display: flex;
+justify-content: space-between;
+font-size: 0.75rem;
+color: var(–muted);
+margin-bottom: 8px;
+}
+
+.progress-bar {
+height: 4px;
+background: var(–border);
+border-radius: 2px;
+overflow: hidden;
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–green), var(–accent));
+border-radius: 2px;
+transition: width 0.4s ease;
+}
+
+/* CONTENT */
+.content {
+padding: 48px 56px;
+max-width: 860px;
+}
+
+.lesson-header {
+margin-bottom: 40px;
+animation: fadeUp 0.4s ease both;
+}
+
+.lesson-tag {
+font-size: 0.72rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+color: var(–green);
+font-weight: 600;
+margin-bottom: 12px;
+}
+
+.lesson-title {
+font-family: ‘Syne’, sans-serif;
+font-size: clamp(1.5rem, 3vw, 2.2rem);
+font-weight: 700;
+color: var(–white);
+line-height: 1.2;
+}
+
+.lesson-desc {
+margin-top: 14px;
+color: var(–muted);
+font-size: 1rem;
+line-height: 1.75;
+font-weight: 300;
+}
+
+/* CONTENT BLOCKS */
+.section {
+margin-bottom: 40px;
+animation: fadeUp 0.4s ease both;
+}
+
+.section-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 1rem;
+font-weight: 700;
+color: var(–accent);
+text-transform: uppercase;
+letter-spacing: 0.08em;
+margin-bottom: 16px;
+}
+
+.body-text {
+color: var(–text);
+font-size: 0.95rem;
+line-height: 1.85;
+font-weight: 300;
+}
+
+.body-text strong { color: var(–white); font-weight: 500; }
+
+/* CARDS */
+.card-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+gap: 16px;
+margin-top: 16px;
+}
+
+.info-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 20px;
+transition: border-color 0.2s, transform 0.2s;
+}
+
+.info-card:hover {
+border-color: var(–green);
+transform: translateY(-2px);
+}
+
+.card-icon { font-size: 1.6rem; margin-bottom: 10px; }
+
+.card-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 0.9rem;
+font-weight: 700;
+color: var(–white);
+margin-bottom: 6px;
+}
+
+.card-text {
+font-size: 0.82rem;
+color: var(–muted);
+line-height: 1.6;
+}
+
+/* LIST */
+.styled-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.styled-list li {
+display: flex;
+align-items: flex-start;
+gap: 12px;
+font-size: 0.92rem;
+color: var(–text);
+line-height: 1.6;
+}
+
+.styled-list li::before {
+content: ‘▸’;
+color: var(–green);
+flex-shrink: 0;
+margin-top: 2px;
+}
+
+/* HIGHLIGHT BOX */
+.highlight {
+background: var(–green-glow);
+border: 1px solid var(–green);
+border-radius: 12px;
+padding: 20px 24px;
+margin: 24px 0;
+}
+
+.highlight-label {
+font-size: 0.7rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+color: var(–green);
+font-weight: 700;
+margin-bottom: 8px;
+}
+
+.highlight p {
+font-size: 0.92rem;
+color: var(–text);
+line-height: 1.7;
+}
+
+/* CODE BLOCK */
+.code-block {
+background: #0d130d;
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 20px 24px;
+font-family: ‘Courier New’, monospace;
+font-size: 0.85rem;
+color: var(–accent);
+line-height: 1.8;
+overflow-x: auto;
+margin: 16px 0;
+}
+
+.code-comment { color: var(–muted); }
+
+/* TABLE */
+.styled-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.875rem;
+margin: 16px 0;
+}
+
+.styled-table th {
+background: var(–bg3);
+color: var(–accent);
+font-family: ‘Syne’, sans-serif;
+font-weight: 700;
+font-size: 0.75rem;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+padding: 12px 16px;
+text-align: left;
+border-bottom: 1px solid var(–border);
+}
+
+.styled-table td {
+padding: 11px 16px;
+border-bottom: 1px solid var(–border);
+color: var(–text);
+vertical-align: top;
+}
+
+.styled-table tr:hover td { background: var(–bg3); }
+
+.tag {
+display: inline-block;
+padding: 2px 10px;
+border-radius: 100px;
+font-size: 0.72rem;
+font-weight: 600;
+}
+.tag-green { background: var(–green-glow); color: var(–green); border: 1px solid var(–green); }
+.tag-yellow { background: #ff990020; color: #ffaa33; border: 1px solid #ff9900; }
+.tag-red { background: #ff444420; color: #ff7070; border: 1px solid #ff4444; }
+
+/* FLOW DIAGRAM */
+.flow {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 0;
+margin: 20px 0;
+}
+
+.flow-step {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 14px 18px;
+font-size: 0.82rem;
+color: var(–text);
+text-align: center;
+min-width: 110px;
+}
+
+.flow-step .step-num {
+font-family: ‘Syne’, sans-serif;
+font-size: 0.65rem;
+color: var(–green);
+font-weight: 700;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+margin-bottom: 4px;
+}
+
+.flow-arrow {
+color: var(–muted);
+font-size: 1.2rem;
+padding: 0 8px;
+flex-shrink: 0;
+}
+
+/* NAV BUTTONS */
+.lesson-nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 60px;
+padding-top: 32px;
+border-top: 1px solid var(–border);
+}
+
+.nav-btn {
+display: flex;
+align-items: center;
+gap: 10px;
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 12px 20px;
+cursor: pointer;
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 0.88rem;
+transition: all 0.2s;
+}
+
+.nav-btn:hover { border-color: var(–green); color: var(–green); }
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.nav-btn:disabled:hover { border-color: var(–border); color: var(–text); }
+
+.nav-btn.primary {
+background: var(–green);
+color: #000;
+border-color: var(–green);
+font-weight: 600;
+}
+
+.nav-btn.primary:hover { background: var(–accent); border-color: var(–accent); }
+
+.complete-btn {
+display: block;
+width: 100%;
+margin-top: 32px;
+padding: 16px;
+background: transparent;
+border: 1px solid var(–green);
+border-radius: 10px;
+color: var(–green);
+font-family: ‘Syne’, sans-serif;
+font-size: 0.9rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+cursor: pointer;
+transition: all 0.2s;
+text-transform: uppercase;
+}
+
+.complete-btn:hover { background: var(–green-glow); }
+.complete-btn.done { background: var(–green-glow); color: var(–accent); border-color: var(–accent); }
+
+/* ANIMATIONS */
+@keyframes fadeDown {
+from { opacity: 0; transform: translateY(-16px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(16px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 1; }
+50% { opacity: 0.4; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+.layout { grid-template-columns: 1fr; }
+.sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(–border); padding: 20px 0; }
+.content { padding: 32px 24px; }
+.hero { padding: 40px 24px 36px; }
+.flow { gap: 8px; }
+.flow-arrow { display: none; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- HERO -->
+
+<div class="hero">
+  <div class="badge"><span class="badge-dot"></span> Curso Interactivo</div>
+  <h1>Chatbot IA para<br><span>WhatsApp Business</span></h1>
+  <p class="hero-sub">Aprende a automatizar tu negocio, capturar leads y atender clientes 24/7 con inteligencia artificial.</p>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-icon">📚</span> <strong>4 Módulos</strong> &nbsp;· 16 lecciones</div>
+    <div class="meta-item"><span class="meta-icon">⏱️</span> <strong>~4 horas</strong> de contenido</div>
+    <div class="meta-item"><span class="meta-icon">🎯</span> Nivel <strong>Intermedio</strong></div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Progreso</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+```
+<div class="sidebar-label">Contenido</div>
+<div id="sidebar-nav"></div>
+```
+
+  </aside>
+
+  <!-- CONTENT -->
+
+  <main class="content" id="lesson-content"></main>
+</div>
+
+<script>
+const MODULES = [
+  {
+    id: 'mod1',
+    title: 'Fundamentos del Chatbot',
+    lessons: [
+      {
+        id: 'l1-1',
+        title: '¿Qué es un chatbot de WhatsApp Business?',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 1 · Lección 1</div>
+            <h2 class="lesson-title">¿Qué es un Chatbot de WhatsApp Business?</h2>
+            <p class="lesson-desc">Entiende qué es un chatbot, cómo funciona con WhatsApp Business y por qué es una herramienta poderosa para emprendedores digitales.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Definición simple</div>
+            <p class="body-text">Un <strong>chatbot de WhatsApp Business</strong> es un programa de software que simula conversaciones humanas dentro de WhatsApp, capaz de responder mensajes de forma automática, capturar datos de usuarios y realizar acciones sin intervención humana.</p>
+            <div class="highlight">
+              <div class="highlight-label">💡 Idea clave</div>
+              <p>El chatbot trabaja mientras tú duermes. Responde a cualquier hora, captura leads y filtra clientes potenciales antes de que lleguen a ti.</p>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Tipos de chatbots</div>
+            <div class="card-grid">
+              <div class="info-card">
+                <div class="card-icon">🌿</div>
+                <div class="card-title">Basado en reglas</div>
+                <div class="card-text">Responde con menús y opciones predefinidas. Simple pero efectivo para FAQs.</div>
+              </div>
+              <div class="info-card">
+                <div class="card-icon">🤖</div>
+                <div class="card-title">IA Conversacional</div>
+                <div class="card-text">Entiende lenguaje natural con modelos como GPT. Respuestas más humanas y flexibles.</div>
+              </div>
+              <div class="info-card">
+                <div class="card-icon">⚡</div>
+                <div class="card-title">Híbrido</div>
+                <div class="card-text">Combina reglas para flujos críticos e IA para preguntas libres. El más recomendado.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">¿Por qué WhatsApp?</div>
+            <ul class="styled-list">
+              <li>Más de 2,000 millones de usuarios activos en el mundo</li>
+              <li>Tasa de apertura del 98% vs. 20% del email marketing</li>
+              <li>Canal preferido para comunicación en Latinoamérica</li>
+              <li>Tus clientes ya lo usan todos los días</li>
+              <li>Mensajes personalizados con mayor tasa de conversión</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Diferencia: App vs API</div>
+            <table class="styled-table">
+              <thead><tr><th>Característica</th><th>WhatsApp Business App</th><th>WhatsApp Business API</th></tr></thead>
+              <tbody>
+                <tr><td>Costo</td><td><span class="tag tag-green">Gratis</span></td><td><span class="tag tag-yellow">Pago por uso</span></td></tr>
+                <tr><td>Automatización</td><td>Limitada</td><td>Total</td></tr>
+                <tr><td>Chatbot con IA</td><td>No</td><td>Sí</td></tr>
+                <tr><td>Múltiples agentes</td><td>Hasta 5 dispositivos</td><td>Ilimitado</td></tr>
+                <tr><td>Ideal para</td><td>Negocios pequeños</td><td>Escalar y automatizar</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        id: 'l1-2',
+        title: 'Casos de uso más comunes',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 1 · Lección 2</div>
+            <h2 class="lesson-title">Casos de Uso Más Comunes</h2>
+            <p class="lesson-desc">Descubre para qué tipos de negocio y situaciones un chatbot de WhatsApp genera el mayor impacto.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Por tipo de negocio</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">🏪</div><div class="card-title">E-commerce</div><div class="card-text">Estado de pedidos, catálogo, soporte posventa automático.</div></div>
+              <div class="info-card"><div class="card-icon">🏥</div><div class="card-title">Salud y Bienestar</div><div class="card-text">Agendar citas, recordatorios, preguntas frecuentes.</div></div>
+              <div class="info-card"><div class="card-icon">🏫</div><div class="card-title">Educación</div><div class="card-text">Capturar leads de cursos, resolver dudas, enviar materiales.</div></div>
+              <div class="info-card"><div class="card-icon">🍽️</div><div class="card-title">Restaurantes</div><div class="card-text">Menú, reservaciones, pedidos express.</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">El poder fuera de horario</div>
+            <p class="body-text">Este es el caso de uso más valioso para emprendedores. Mientras estás durmiendo, el chatbot puede:</p>
+            <ul class="styled-list" style="margin-top:14px">
+              <li>Capturar el nombre, correo y necesidad de un prospecto</li>
+              <li>Enviar un catálogo o link de compra automáticamente</li>
+              <li>Calificar al lead para que mañana solo atiendas a los más interesados</li>
+              <li>Agendar una llamada en tu calendario</li>
+            </ul>
+            <div class="highlight" style="margin-top:20px">
+              <div class="highlight-label">📊 Dato real</div>
+              <p>Los leads que responden en los primeros 5 minutos tienen <strong>9 veces más probabilidad</strong> de convertir. Un chatbot responde en segundos, siempre.</p>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Métricas que debes medir</div>
+            <table class="styled-table">
+              <thead><tr><th>Métrica</th><th>Qué mide</th><th>Buen resultado</th></tr></thead>
+              <tbody>
+                <tr><td>Leads capturados</td><td>Datos recopilados automáticamente</td><td>+10/semana</td></tr>
+                <tr><td>Tasa de respuesta</td><td>Mensajes respondidos sin humano</td><td>&gt;70%</td></tr>
+                <tr><td>Tiempo de respuesta</td><td>Segundos hasta primera respuesta</td><td>&lt;10 seg</td></tr>
+                <tr><td>Interacciones fuera de horario</td><td>Conversaciones en horas no laborales</td><td>+30% del total</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        id: 'l1-3',
+        title: 'El stack tecnológico completo',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 1 · Lección 3</div>
+            <h2 class="lesson-title">El Stack Tecnológico Completo</h2>
+            <p class="lesson-desc">Conoce todas las herramientas que trabajan juntas para crear un chatbot inteligente y funcional.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Visión general</div>
+            <div class="flow">
+              <div class="flow-step"><div class="step-num">Canal</div>WhatsApp Business API</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">Plataforma</div>Tidio / Respond.io</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">IA</div>OpenAI GPT</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">Automatización</div>Make.com</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">Base de datos</div>Airtable</div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Rol de cada herramienta</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">📱</div><div class="card-title">WhatsApp Business API</div><div class="card-text">El canal. Conecta tu número oficial a plataformas externas. Requiere aprobación de Meta.</div></div>
+              <div class="info-card"><div class="card-icon">🎛️</div><div class="card-title">Tidio / Respond.io</div><div class="card-text">La interfaz. Donde diseñas flujos, monitoreas conversaciones y gestionas agentes humanos.</div></div>
+              <div class="info-card"><div class="card-icon">🧠</div><div class="card-title">OpenAI (GPT)</div><div class="card-text">La inteligencia. Genera respuestas naturales y contextualmente relevantes en tiempo real.</div></div>
+              <div class="info-card"><div class="card-icon">⚙️</div><div class="card-title">Make.com</div><div class="card-text">La automatización. Conecta todas las herramientas y ejecuta acciones sin código.</div></div>
+              <div class="info-card"><div class="card-icon">🗃️</div><div class="card-title">Airtable</div><div class="card-text">La base de datos. Almacena leads, historial de conversaciones y reportes en tiempo real.</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Costo estimado mensual</div>
+            <table class="styled-table">
+              <thead><tr><th>Herramienta</th><th>Plan básico</th><th>Notas</th></tr></thead>
+              <tbody>
+                <tr><td>WhatsApp API (360dialog)</td><td>~$6/mes</td><td>+ costo por conversación</td></tr>
+                <tr><td>Tidio</td><td>$29/mes</td><td>Plan Communicator</td></tr>
+                <tr><td>OpenAI</td><td>~$5–20/mes</td><td>Según uso (tokens)</td></tr>
+                <tr><td>Make.com</td><td>$9/mes</td><td>1,000 operaciones</td></tr>
+                <tr><td>Airtable</td><td>Gratis</td><td>Plan Free cubre mucho</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        id: 'l1-4',
+        title: 'Handoff humano: cuándo y cómo',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 1 · Lección 4</div>
+            <h2 class="lesson-title">Handoff Humano: Cuándo y Cómo</h2>
+            <p class="lesson-desc">El chatbot no reemplaza al humano, lo potencia. Aprende a diseñar una transición fluida entre bot y agente.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">¿Qué es el handoff?</div>
+            <p class="body-text">Es el momento en que la conversación pasa del chatbot automático a un agente humano. Un buen handoff es <strong>transparente</strong> para el cliente y <strong>eficiente</strong> para el negocio.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">¿Cuándo transferir al humano?</div>
+            <ul class="styled-list">
+              <li>El cliente lo solicita explícitamente ("hablar con una persona")</li>
+              <li>La IA no entiende la consulta después de 2 intentos</li>
+              <li>El tema involucra dinero, quejas o decisiones complejas</li>
+              <li>El lead está listo para cerrar venta (hot lead)</li>
+              <li>Palabras clave de urgencia: "urgente", "problema", "error"</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Flujo de handoff recomendado</div>
+            <div class="flow">
+              <div class="flow-step"><div class="step-num">1</div>Bot detecta trigger</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">2</div>Notifica al agente</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">3</div>Bot informa al cliente</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">4</div>Agente toma control</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">5</div>Bot retoma si el agente no responde</div>
+            </div>
+          </div>
+
+          <div class="highlight">
+            <div class="highlight-label">⚠️ Error común</div>
+            <p>No dejar al cliente en silencio. Si el agente no está disponible, el bot debe decir: <em>"Te estamos conectando con un asesor, en breve te contactamos."</em> Nunca dejes la conversación muerta.</p>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 'mod2',
+    title: 'Configuración Técnica',
+    lessons: [
+      {
+        id: 'l2-1',
+        title: 'Registrar número en WhatsApp Business API',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 2 · Lección 1</div>
+            <h2 class="lesson-title">Registrar Número en WhatsApp Business API</h2>
+            <p class="lesson-desc">Paso a paso para conectar tu número de teléfono a la API oficial de WhatsApp Business a través de proveedores autorizados.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Proveedores BSP recomendados</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">🔵</div><div class="card-title">360dialog</div><div class="card-text">Más económico. Ideal para emprendedores. Desde $6/mes.</div></div>
+              <div class="info-card"><div class="card-icon">🟣</div><div class="card-title">Twilio</div><div class="card-text">Muy flexible, ideal si sabes programar. Pay-as-you-go.</div></div>
+              <div class="info-card"><div class="card-icon">🟢</div><div class="card-title">Meta Direct</div><div class="card-text">Acceso directo vía Meta Business Suite. Gratis hasta 1000 conv/mes.</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Requisitos previos</div>
+            <ul class="styled-list">
+              <li>Cuenta de Facebook Business Manager verificada</li>
+              <li>Número de teléfono que NO esté registrado en WhatsApp personal o App</li>
+              <li>Número capaz de recibir llamadas o SMS para verificación</li>
+              <li>Nombre del negocio y descripción clara</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Pasos de registro (360dialog)</div>
+            <ul class="styled-list">
+              <li>Crea cuenta en 360dialog.com y conecta tu Facebook Business Manager</li>
+              <li>Ingresa el número a registrar y selecciona verificación por SMS o llamada</li>
+              <li>Ingresa el código de verificación recibido</li>
+              <li>Configura el perfil del negocio: nombre, foto, descripción, sitio web</li>
+              <li>Obtén tu API Key y conéctalo a Tidio o tu plataforma elegida</li>
+            </ul>
+          </div>
+
+          <div class="highlight">
+            <div class="highlight-label">⚠️ Importante</div>
+            <p>Una vez registrado el número en la API, ya no podrás usarlo en la WhatsApp Business App. Son excluyentes entre sí. Usa un número dedicado para el chatbot.</p>
+          </div>
+        `
+      },
+      {
+        id: 'l2-2',
+        title: 'Conectar Tidio con WhatsApp',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 2 · Lección 2</div>
+            <h2 class="lesson-title">Conectar Tidio con WhatsApp</h2>
+            <p class="lesson-desc">Aprende a vincular tu número de WhatsApp Business API con Tidio para gestionar conversaciones y automatizaciones desde un solo lugar.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">¿Por qué Tidio?</div>
+            <p class="body-text">Tidio es una plataforma de comunicación con cliente que combina <strong>chat en vivo, chatbots y automatizaciones</strong>. Su Flow Builder permite crear flujos visuales sin código, y se integra directamente con WhatsApp Business API.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Pasos de conexión</div>
+            <ul class="styled-list">
+              <li>En Tidio, ve a <strong>Configuración → Canales → WhatsApp</strong></li>
+              <li>Selecciona tu proveedor BSP (360dialog, Twilio, etc.)</li>
+              <li>Pega tu API Key o Token de acceso del proveedor</li>
+              <li>Verifica la conexión enviando un mensaje de prueba</li>
+              <li>Asigna el canal a tu equipo y configura horarios de atención</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Configuraciones clave en Tidio</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">⏰</div><div class="card-title">Horario de negocio</div><div class="card-text">Define cuándo opera el bot solo vs. cuándo pueden intervenir agentes.</div></div>
+              <div class="info-card"><div class="card-icon">🔔</div><div class="card-title">Notificaciones</div><div class="card-text">Alertas push o email cuando un lead necesita atención humana.</div></div>
+              <div class="info-card"><div class="card-icon">🏷️</div><div class="card-title">Etiquetas de conversación</div><div class="card-text">Categoriza leads automáticamente: interesado, cerrado, pendiente.</div></div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'l2-3',
+        title: 'Integrar OpenAI al chatbot',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 2 · Lección 3</div>
+            <h2 class="lesson-title">Integrar OpenAI al Chatbot</h2>
+            <p class="lesson-desc">Conecta el modelo GPT de OpenAI para que tu chatbot entienda preguntas libres y responda de forma natural e inteligente.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">¿Por qué agregar IA?</div>
+            <p class="body-text">Los chatbots basados solo en reglas fallan cuando el usuario hace preguntas fuera del menú. La IA convierte eso en una ventaja: el bot entiende la intención detrás del mensaje y responde apropiadamente.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Flujo técnico</div>
+            <div class="flow">
+              <div class="flow-step"><div class="step-num">1</div>Usuario escribe mensaje</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">2</div>Tidio recibe el texto</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">3</div>Make.com envía a OpenAI</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">4</div>GPT genera respuesta</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">5</div>Tidio responde al usuario</div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">El System Prompt: tu instrucción maestra</div>
+            <p class="body-text">El System Prompt es el texto que le dice a GPT <strong>cómo debe comportarse</strong>. Es la clave para que el bot tenga personalidad y límites claros.</p>
+            <div class="code-block">
+<span class="code-comment">// Ejemplo de System Prompt</span>
+Eres el asistente virtual de [Nombre del Negocio].
+Tu nombre es Alex.
+
+Responde SOLO sobre:
+- Precios y servicios ofrecidos
+- Horarios de atención
+- Proceso de compra o contratación
+
+Si te preguntan algo fuera de estos temas, di:
+"Esa consulta la puede resolver mejor uno de nuestros
+asesores. ¿Te gustaría que te contactemos?"
+
+Siempre responde en español, de forma amigable
+y en máximo 3 oraciones.
+            </div>
+          </div>
+
+          <div class="highlight">
+            <div class="highlight-label">💡 Pro tip</div>
+            <p>Incluye en el System Prompt una lista de tus productos, precios y preguntas frecuentes. Mientras más contexto le des a GPT, mejores respuestas obtendrás.</p>
+          </div>
+        `
+      },
+      {
+        id: 'l2-4',
+        title: 'Conectar Make.com y Airtable',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 2 · Lección 4</div>
+            <h2 class="lesson-title">Conectar Make.com y Airtable</h2>
+            <p class="lesson-desc">Automatiza el guardado de leads y datos de conversación en tu base de datos sin tocar una línea de código.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Rol de Make.com en el stack</div>
+            <p class="body-text">Make.com (antes Integromat) es el <strong>pegamento del sistema</strong>. Conecta Tidio → OpenAI → Airtable en flujos visuales llamados "Escenarios". Cuando el chatbot captura datos de un lead, Make.com los guarda automáticamente en Airtable.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Escenario básico de captura de leads</div>
+            <ul class="styled-list">
+              <li><strong>Trigger:</strong> Nuevo contacto en Tidio con datos completos (nombre + teléfono)</li>
+              <li><strong>Acción 1:</strong> Buscar si el contacto ya existe en Airtable (evitar duplicados)</li>
+              <li><strong>Acción 2:</strong> Crear nuevo registro con nombre, teléfono, fecha y fuente</li>
+              <li><strong>Acción 3:</strong> Enviar notificación por email o Slack al equipo de ventas</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Estructura de tabla en Airtable</div>
+            <table class="styled-table">
+              <thead><tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr></thead>
+              <tbody>
+                <tr><td>Nombre</td><td>Texto</td><td>Nombre del lead capturado por el bot</td></tr>
+                <tr><td>Teléfono</td><td>Teléfono</td><td>Número de WhatsApp del contacto</td></tr>
+                <tr><td>Fecha</td><td>Fecha/Hora</td><td>Cuándo se capturó el lead</td></tr>
+                <tr><td>Fuera de horario</td><td>Checkbox</td><td>Si la conversación fue fuera del horario</td></tr>
+                <tr><td>Estado</td><td>Select</td><td>Nuevo / Contactado / Cerrado</td></tr>
+                <tr><td>Notas</td><td>Texto largo</td><td>Resumen de la conversación</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 'mod3',
+    title: 'Diseño de Flujos',
+    lessons: [
+      {
+        id: 'l3-1',
+        title: 'Principios de diseño conversacional',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 3 · Lección 1</div>
+            <h2 class="lesson-title">Principios de Diseño Conversacional</h2>
+            <p class="lesson-desc">La diferencia entre un chatbot que frustra y uno que convierte está en cómo diseñas la conversación.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Los 5 principios fundamentales</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">🎯</div><div class="card-title">Propósito claro</div><div class="card-text">Cada mensaje debe tener un objetivo. No preguntes por curiosidad, hazlo para avanzar.</div></div>
+              <div class="info-card"><div class="card-icon">💬</div><div class="card-title">Mensajes cortos</div><div class="card-text">Máximo 3 oraciones por mensaje. WhatsApp no es email.</div></div>
+              <div class="info-card"><div class="card-icon">🔘</div><div class="card-title">Opciones claras</div><div class="card-text">Ofrece botones o números cuando sea posible. Reduce la fricción de escribir.</div></div>
+              <div class="info-card"><div class="card-icon">🪜</div><div class="card-title">Un paso a la vez</div><div class="card-text">No hagas varias preguntas en un mismo mensaje. Una pregunta, una respuesta.</div></div>
+              <div class="info-card"><div class="card-icon">❤️</div><div class="card-title">Tono humano</div><div class="card-text">Usa emojis con moderación, personaliza con el nombre del usuario.</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Ejemplo: Mal vs Bien diseñado</div>
+            <div class="highlight">
+              <div class="highlight-label">❌ Mal diseño</div>
+              <p>"Hola. ¿Cuál es su nombre, correo electrónico, teléfono, servicio de interés y presupuesto disponible?"</p>
+            </div>
+            <div class="highlight" style="border-color: var(--accent); background: #b9ff6610;">
+              <div class="highlight-label" style="color: var(--accent);">✅ Buen diseño</div>
+              <p>"¡Hola! 👋 Soy Alex, asistente de [Negocio]. ¿Cómo te llamas?"<br><br>
+              [Usuario responde]<br><br>
+              "Mucho gusto, [Nombre]. ¿En qué puedo ayudarte hoy?<br>
+              1️⃣ Ver precios<br>
+              2️⃣ Hablar con un asesor<br>
+              3️⃣ Más información"</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 'l3-2',
+        title: 'Crear flujos en Tidio Flow Builder',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 3 · Lección 2</div>
+            <h2 class="lesson-title">Crear Flujos en Tidio Flow Builder</h2>
+            <p class="lesson-desc">Domina la interfaz visual de Tidio para construir flujos de conversación sin necesidad de código.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Componentes del Flow Builder</div>
+            <table class="styled-table">
+              <thead><tr><th>Componente</th><th>Función</th><th>Ejemplo de uso</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Trigger</strong></td><td>Inicia el flujo</td><td>"Primer mensaje del usuario"</td></tr>
+                <tr><td><strong>Message</strong></td><td>Envía texto al usuario</td><td>"¡Hola! ¿En qué te ayudo?"</td></tr>
+                <tr><td><strong>Quick Replies</strong></td><td>Botones de respuesta rápida</td><td>Sí / No / Ver catálogo</td></tr>
+                <tr><td><strong>Condition</strong></td><td>Bifurca según respuesta</td><td>Si eligió "Ver precios" → enviar PDF</td></tr>
+                <tr><td><strong>Ask a Question</strong></td><td>Captura y guarda datos</td><td>Pregunta nombre, guarda en variable</td></tr>
+                <tr><td><strong>Transfer</strong></td><td>Pasa a agente humano</td><td>Cuando el usuario lo solicita</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Flujo de bienvenida recomendado</div>
+            <div class="flow">
+              <div class="flow-step"><div class="step-num">Trigger</div>Primer contacto</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">Message</div>Saludo + nombre del bot</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">Ask</div>¿Cómo te llamas?</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">Quick Reply</div>Menú de opciones</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step"><div class="step-num">Condition</div>Ramificación por opción</div>
+            </div>
+          </div>
+
+          <div class="highlight">
+            <div class="highlight-label">💡 Tip de productividad</div>
+            <p>Crea primero el flujo en papel o en un diagrama (Miro, FigJam). Entiende toda la lógica antes de construir en Tidio. Ahorras 80% del tiempo de edición.</p>
+          </div>
+        `
+      },
+      {
+        id: 'l3-3',
+        title: 'Flujo de captura de leads fuera de horario',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 3 · Lección 3</div>
+            <h2 class="lesson-title">Flujo de Captura de Leads Fuera de Horario</h2>
+            <p class="lesson-desc">Diseña el flujo más importante para tu negocio: el que trabaja mientras tú no puedes.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Objetivo del flujo</div>
+            <p class="body-text">Cuando alguien escribe a las 11pm y tú estás dormido, el chatbot debe: <strong>saludar, identificar la necesidad, capturar datos de contacto</strong> y dejar al prospecto satisfecho con una respuesta clara de cuándo lo contactarás.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Flujo completo paso a paso</div>
+            <ul class="styled-list">
+              <li><strong>Trigger:</strong> Mensaje recibido fuera del horario de atención (configurable en Tidio)</li>
+              <li><strong>Mensaje 1:</strong> "¡Hola! 👋 Gracias por escribirnos. En este momento no hay asesores disponibles, pero nuestro asistente puede ayudarte."</li>
+              <li><strong>Pregunta 1:</strong> "¿Cómo te llamas?" → Guardar en variable {nombre}</li>
+              <li><strong>Mensaje 2:</strong> "Mucho gusto, {nombre}. ¿En qué podemos ayudarte?" + botones de categorías</li>
+              <li><strong>Según opción:</strong> Enviar información relevante (precios, catálogo, FAQ)</li>
+              <li><strong>Pregunta 2:</strong> "¿Te gustaría que un asesor te contacte mañana? ¿Cuál es el mejor número o correo?"</li>
+              <li><strong>Acción:</strong> Guardar datos en Airtable vía Make.com + enviar alerta al equipo</li>
+              <li><strong>Mensaje final:</strong> "¡Listo! Te contactaremos en cuanto abramos. Nuestro horario es [horario]. ¡Hasta pronto! 😊"</li>
+            </ul>
+          </div>
+
+          <div class="highlight">
+            <div class="highlight-label">📊 Por qué esto importa</div>
+            <p>Este flujo convierte lo que antes era un lead perdido (alguien que escribió y no obtuvo respuesta) en un lead capturado con nombre, necesidad y dato de contacto. Es el ROI más fácil de demostrar a un cliente potencial.</p>
+          </div>
+        `
+      },
+      {
+        id: 'l3-4',
+        title: 'Flujo de calificación y cierre de ventas',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 3 · Lección 4</div>
+            <h2 class="lesson-title">Flujo de Calificación y Cierre de Ventas</h2>
+            <p class="lesson-desc">Diseña un flujo que filtre prospectos y entregue solo los más calientes a tu equipo de ventas.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Las 3 preguntas de calificación</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">🎯</div><div class="card-title">¿Tiene el problema?</div><div class="card-text">"¿Actualmente atiendes clientes por WhatsApp?" → Valida si necesita el servicio.</div></div>
+              <div class="info-card"><div class="card-icon">💰</div><div class="card-title">¿Tiene presupuesto?</div><div class="card-text">"¿Tienes presupuesto para invertir en automatización este mes?" → Filtra curiosos.</div></div>
+              <div class="info-card"><div class="card-icon">⚡</div><div class="card-title">¿Está listo para actuar?</div><div class="card-text">"¿Cuándo te gustaría empezar?" → Identifica urgencia real.</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Lógica de calificación</div>
+            <table class="styled-table">
+              <thead><tr><th>Respuestas del lead</th><th>Etiqueta</th><th>Acción del bot</th></tr></thead>
+              <tbody>
+                <tr><td>3 positivas</td><td><span class="tag tag-green">Hot Lead</span></td><td>Transferir a agente inmediatamente</td></tr>
+                <tr><td>2 positivas</td><td><span class="tag tag-yellow">Warm Lead</span></td><td>Enviar propuesta + agendar llamada</td></tr>
+                <tr><td>0-1 positivas</td><td><span class="tag tag-red">Cold Lead</span></td><td>Guardar en Airtable + nutrir con contenido</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="highlight">
+            <div class="highlight-label">💡 Estrategia</div>
+            <p>Los Cold Leads no se pierden, se nutren. Agrégalos a una secuencia de mensajes semanales con contenido de valor hasta que estén listos para comprar.</p>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    id: 'mod4',
+    title: 'Casos de Uso y Métricas',
+    lessons: [
+      {
+        id: 'l4-1',
+        title: 'Tu negocio como caso de prueba',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 4 · Lección 1</div>
+            <h2 class="lesson-title">Tu Negocio Como Caso de Prueba</h2>
+            <p class="lesson-desc">La estrategia más poderosa para vender un servicio: úsalo tú primero y documenta los resultados.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">¿Por qué probar en tu propio negocio?</div>
+            <ul class="styled-list">
+              <li>Detectas errores sin arriesgar la relación con un cliente</li>
+              <li>Generas datos reales que se convierten en argumentos de venta</li>
+              <li>Desarrollas autoridad: "yo uso esto en mi negocio todos los días"</li>
+              <li>Tienes libertad para experimentar sin presión externa</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Qué documentar desde el día 1</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">📸</div><div class="card-title">Pantallazos</div><div class="card-text">Conversaciones donde el bot respondió bien, especialmente fuera de horario.</div></div>
+              <div class="info-card"><div class="card-icon">📊</div><div class="card-title">Métricas semanales</div><div class="card-text">Leads capturados, tasa de respuesta, conversaciones fuera de horario.</div></div>
+              <div class="info-card"><div class="card-icon">📝</div><div class="card-title">Diario de mejoras</div><div class="card-text">Qué ajustaste al flujo y por qué. Muestra el proceso de optimización.</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Timeline recomendado</div>
+            <table class="styled-table">
+              <thead><tr><th>Semana</th><th>Enfoque</th><th>Entregable</th></tr></thead>
+              <tbody>
+                <tr><td>1-2</td><td>Instalación y primeras conversaciones</td><td>Pantallazos del bot funcionando</td></tr>
+                <tr><td>3-4</td><td>Optimización de flujos y respuestas</td><td>Primeras métricas de leads</td></tr>
+                <tr><td>5-6</td><td>Estabilidad y recolección de datos</td><td>Caso de éxito completo con números</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        id: 'l4-2',
+        title: 'Conseguir un cliente beta gratuito',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 4 · Lección 2</div>
+            <h2 class="lesson-title">Conseguir un Cliente Beta Gratuito</h2>
+            <p class="lesson-desc">Estrategia para conseguir tu primer cliente externo a costo cero, generar un testimonio y validar tu servicio.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">¿Por qué ofrecer gratis el primer mes?</div>
+            <p class="body-text">Un cliente beta te da lo que ningún dinero puede comprar al inicio: <strong>datos reales de un negocio diferente al tuyo</strong>, un testimonio de tercero creíble y experiencia en implementación con una empresa real.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Perfil ideal del cliente beta</div>
+            <ul class="styled-list">
+              <li>Negocio local que ya usa WhatsApp para atender clientes</li>
+              <li>Dueño que se queje de no poder atender fuera de horario</li>
+              <li>Empresa con volumen moderado (no gigante, no micro)</li>
+              <li>Alguien de tu red de confianza (más fácil acordar condiciones)</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Acuerdo básico a firmar</div>
+            <div class="highlight">
+              <div class="highlight-label">📄 Puntos del acuerdo</div>
+              <p>
+                1. El servicio se provee sin costo durante 30 días<br>
+                2. El cliente se compromete a compartir métricas reales<br>
+                3. Al finalizar, el cliente da un testimonio escrito y/o en video<br>
+                4. Los datos pueden usarse en material de marketing (anonimizados o con permiso)
+              </p>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Cómo presentar la propuesta</div>
+            <ul class="styled-list">
+              <li>Muestra primero tu propio caso: "Esto lo estoy usando en mi negocio"</li>
+              <li>Identifica su dolor específico: "¿Cuántos mensajes recibes fuera de horario?"</li>
+              <li>Presenta la solución: "Puedo configurarte esto en una semana"</li>
+              <li>Elimina el riesgo: "El primer mes es completamente gratis"</li>
+              <li>Cierra con urgencia suave: "Solo estoy tomando 2 clientes beta este mes"</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: 'l4-3',
+        title: 'Dashboard de métricas con Airtable',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 4 · Lección 3</div>
+            <h2 class="lesson-title">Dashboard de Métricas con Airtable</h2>
+            <p class="lesson-desc">Crea un panel de control visual para monitorear el rendimiento de tu chatbot y generar reportes para clientes.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Las 5 métricas clave</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">📥</div><div class="card-title">Leads totales</div><div class="card-text">Cuántos contactos nuevos capturó el bot en el período.</div></div>
+              <div class="info-card"><div class="card-icon">🌙</div><div class="card-title">Fuera de horario</div><div class="card-text">% de conversaciones que ocurrieron fuera del horario de atención.</div></div>
+              <div class="info-card"><div class="card-icon">⚡</div><div class="card-title">Tiempo de respuesta</div><div class="card-text">Segundos promedio hasta la primera respuesta del bot.</div></div>
+              <div class="info-card"><div class="card-icon">🤖</div><div class="card-title">Resolución autónoma</div><div class="card-text">% de conversaciones resueltas sin intervención humana.</div></div>
+              <div class="info-card"><div class="card-icon">💰</div><div class="card-title">Conversión</div><div class="card-text">% de leads que avanzaron a una venta o reunión.</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Vistas en Airtable para reportes</div>
+            <ul class="styled-list">
+              <li><strong>Grid View:</strong> Tabla completa de todos los leads con filtros por estado y fecha</li>
+              <li><strong>Gallery View:</strong> Vista visual de leads "hot" para el equipo de ventas</li>
+              <li><strong>Calendar View:</strong> Conversaciones por día para ver patrones de actividad</li>
+              <li><strong>Summary Bar:</strong> Totales automáticos de leads, conversaciones fuera de horario</li>
+            </ul>
+          </div>
+
+          <div class="highlight">
+            <div class="highlight-label">📊 Para tu caso de éxito</div>
+            <p>Exporta una captura de pantalla de tu dashboard semanal. Muestra la curva de crecimiento de leads. Un gráfico simple que sube semana a semana vale más que mil palabras en una propuesta de venta.</p>
+          </div>
+        `
+      },
+      {
+        id: 'l4-4',
+        title: 'Escalar: de 1 a 10 clientes',
+        content: () => `
+          <div class="lesson-header">
+            <div class="lesson-tag">Módulo 4 · Lección 4</div>
+            <h2 class="lesson-title">Escalar: de 1 a 10 Clientes</h2>
+            <p class="lesson-desc">Con dos casos de éxito en mano, estás listo para escalar. Aprende cómo estructurar tu servicio para crecer sin perder calidad.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Tu activo de ventas: el caso de éxito</div>
+            <p class="body-text">Antes de vender a escala, construye un documento de 1-2 páginas con:</p>
+            <ul class="styled-list" style="margin-top:12px">
+              <li>El problema que tenía el negocio antes del chatbot</li>
+              <li>Cómo se implementó la solución (simple, no técnico)</li>
+              <li>Números reales: leads capturados, % fuera de horario, tiempo ahorrado</li>
+              <li>Testimonio del dueño del negocio</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Estructura de precios sugerida</div>
+            <table class="styled-table">
+              <thead><tr><th>Plan</th><th>Precio/mes</th><th>Incluye</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Básico</strong></td><td>$150–250</td><td>Chatbot + flujo de bienvenida + captura de leads</td></tr>
+                <tr><td><strong>Profesional</strong></td><td>$350–500</td><td>Básico + IA conversacional + Airtable + reportes</td></tr>
+                <tr><td><strong>Premium</strong></td><td>$700+</td><td>Profesional + calificación de leads + integraciones custom</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Canales de adquisición de clientes</div>
+            <div class="card-grid">
+              <div class="info-card"><div class="card-icon">👥</div><div class="card-title">Red de contactos</div><div class="card-text">Los primeros 3-5 clientes vienen de tu red. No subestimes el poder del boca a boca.</div></div>
+              <div class="info-card"><div class="card-icon">📱</div><div class="card-title">Meta Ads</div><div class="card-text">Anuncios dirigidos a dueños de negocios locales con dolor de atención al cliente.</div></div>
+              <div class="info-card"><div class="card-icon">🤝</div><div class="card-title">Alianzas</div><div class="card-text">Colabora con agencias de marketing que no ofrecen automatización. Tú eres su especialista.</div></div>
+            </div>
+          </div>
+
+          <div class="highlight" style="background: #b9ff6615; border-color: var(--accent);">
+            <div class="highlight-label" style="color: var(--accent);">🚀 Próximo paso</div>
+            <p>¡Completaste el curso! Tienes todo lo que necesitas para implementar, probar y vender tu servicio de chatbot. El siguiente paso es activar el chatbot en tu negocio hoy y empezar a medir. ¡Éxito!</p>
+          </div>
+        `
+      }
+    ]
+  }
+];
+
+// STATE
+const completed = new Set();
+let currentLesson = null;
+const allLessons = MODULES.flatMap(m => m.lessons);
+const totalLessons = allLessons.length;
+
+function updateProgress() {
+  const pct = Math.round((completed.size / totalLessons) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+}
+
+function renderSidebar() {
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = '';
+  MODULES.forEach((mod, mi) => {
+    const group = document.createElement('div');
+    group.className = 'module-group';
+
+    const btn = document.createElement('button');
+    btn.className = 'module-btn';
+    btn.innerHTML = `<span>${mod.title}</span><span class="module-num">0${mi+1}</span>`;
+    group.appendChild(btn);
+
+    const list = document.createElement('div');
+    list.className = 'lesson-list';
+
+    mod.lessons.forEach(lesson => {
+      const lb = document.createElement('button');
+      lb.className = 'lesson-btn' + (completed.has(lesson.id) ? ' completed' : '') + (currentLesson === lesson.id ? ' active' : '');
+      lb.innerHTML = `<span class="check">${completed.has(lesson.id) ? '✓' : '○'}</span> ${lesson.title}`;
+      lb.onclick = () => loadLesson(lesson.id);
+      list.appendChild(lb);
+    });
+
+    group.appendChild(list);
+    nav.appendChild(group);
+  });
+}
+
+function loadLesson(id) {
+  const lesson = allLessons.find(l => l.id === id);
+  if (!lesson) return;
+  currentLesson = id;
+
+  const content = document.getElementById('lesson-content');
+  content.innerHTML = lesson.content();
+
+  // Render complete button
+  const completeBtn = document.createElement('button');
+  completeBtn.className = 'complete-btn' + (completed.has(id) ? ' done' : '');
+  completeBtn.textContent = completed.has(id) ? '✓ Lección completada' : 'Marcar como completada';
+  completeBtn.onclick = () => {
+    completed.add(id);
+    completeBtn.className = 'complete-btn done';
+    completeBtn.textContent = '✓ Lección completada';
+    updateProgress();
+    renderSidebar();
+  };
+  content.appendChild(completeBtn);
+
+  // Nav
+  const nav = document.createElement('div');
+  nav.className = 'lesson-nav';
+  const idx = allLessons.findIndex(l => l.id === id);
+  const prev = allLessons[idx - 1];
+  const next = allLessons[idx + 1];
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'nav-btn';
+  prevBtn.innerHTML = '← Anterior';
+  prevBtn.disabled = !prev;
+  prevBtn.onclick = () => prev && loadLesson(prev.id);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'nav-btn primary';
+  nextBtn.innerHTML = next ? 'Siguiente →' : '🎉 Finalizar curso';
+  nextBtn.onclick = () => next ? loadLesson(next.id) : null;
+
+  nav.appendChild(prevBtn);
+  nav.appendChild(nextBtn);
+  content.appendChild(nav);
+
+  renderSidebar();
+  content.scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+// INIT
+renderSidebar();
+loadLesson(allLessons[0].id);
+</script>
+
+</body>
+</html>
