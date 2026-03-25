@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Módulo 6 - Monetización Chatbots</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  color:white;
+}
+
+.sidebar{
+  width:260px;
+  height:100vh;
+  background:#0f172a;
+  position:fixed;
+  overflow:auto;
+}
+
+.sidebar h2{
+  padding:20px;
+  color:#38bdf8;
+}
+
+.sidebar button{
+  width:100%;
+  padding:15px;
+  background:none;
+  border:none;
+  color:white;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar button:hover{
+  background:#1e293b;
+}
+
+.content{
+  margin-left:260px;
+  padding:30px;
+  max-width:900px;
+}
+
+h1{color:#38bdf8;}
+h2{color:#22c55e;}
+
+p{
+  line-height:1.7;
+  margin-top:10px;
+}
+
+.card{
+  background:#0f172a;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+<h2>Módulo 6</h2>
+
+<button onclick="load('l1')">Lección 6.1</button>
+<button onclick="load('l2')">Lección 6.2</button>
+<button onclick="load('l3')">Lección 6.3</button>
+<button onclick="load('l4')">Lección 6.4</button>
+<button onclick="load('l5')">Lección 6.5</button>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+
+const data = {
+
+l1: `
+<h1>Lección 6.1 — Vender chatbots a negocios</h1>
+
+<p>La mayor oportunidad hoy es que la mayoría de negocios aún NO usan chatbots.</p>
+
+<p>Restaurantes, clínicas, tiendas, academias y servicios atienden manualmente.</p>
+
+<div class="card">
+💡 Tú automatizas eso y les haces ganar más dinero
+</div>
+
+<h2>Qué vendes realmente</h2>
+
+<p>No vendes tecnología.</p>
+
+<p>Vendes:</p>
+
+<ul>
+<li>Más ventas</li>
+<li>Más tiempo libre</li>
+<li>Mejor atención al cliente</li>
+</ul>
+
+<h2>5 nichos más fáciles</h2>
+
+<ul>
+<li>Restaurantes</li>
+<li>Salones de belleza</li>
+<li>Clínicas</li>
+<li>Tiendas online</li>
+<li>Academias</li>
+</ul>
+
+<div class="card">
+💰 Enfócate en el problema, no en la tecnología
+</div>
+`,
+
+l2: `
+<h1>Lección 6.2 — Cuánto cobrar</h1>
+
+<p>No cobres por horas. Cobra por valor.</p>
+
+<h2>Paquetes:</h2>
+
+<h2>Básico ($300 - $400)</h2>
+<ul>
+<li>1 plataforma</li>
+<li>Prompt básico</li>
+<li>3 flujos</li>
+<li>30 días soporte</li>
+</ul>
+
+<h2>Profesional ($600 - $800)</h2>
+<ul>
+<li>2 plataformas</li>
+<li>Leads en Google Sheets</li>
+<li>6 flujos</li>
+<li>60 días soporte</li>
+</ul>
+
+<h2>Premium ($1200 - $1500)</h2>
+<ul>
+<li>3 plataformas</li>
+<li>Calendar + CRM</li>
+<li>10 flujos</li>
+<li>Optimización mensual</li>
+</ul>
+
+<h2>Mensualidad</h2>
+
+<p>$100 - $200 al mes</p>
+
+<div class="card">
+💰 10 clientes = ingresos recurrentes sólidos
+</div>
+`,
+
+l3: `
+<h1>Lección 6.3 — Conseguir clientes</h1>
+
+<h2>Día 1</h2>
+<p>Prepara demo funcional</p>
+
+<h2>Día 2</h2>
+<p>Busca 10 negocios en Google Maps</p>
+
+<h2>Día 3</h2>
+
+<div class="card">
+Mensaje:
+Hola, vi que usan WhatsApp para clientes.
+Instalo chatbots que responden 24/7 automáticamente.
+¿Quieres ver una demo?
+</div>
+
+<h2>Día 4-5</h2>
+
+<ul>
+<li>Mostrar demo</li>
+<li>Explicar beneficio</li>
+<li>Ofrecer paquete</li>
+</ul>
+
+<h2>Día 6-7</h2>
+<p>Seguimiento</p>
+
+<div class="card">
+🎯 1–2 clientes en la primera semana es realista
+</div>
+`,
+
+l4: `
+<h1>Lección 6.4 — Escalar el negocio</h1>
+
+<h2>Sistema de referidos</h2>
+
+<p>Pide recomendaciones a clientes satisfechos.</p>
+
+<h2>Casos de éxito</h2>
+
+<p>Documenta resultados.</p>
+
+<h2>Especialización</h2>
+
+<p>Enfócate en un nicho.</p>
+
+<h2>Equipo</h2>
+
+<p>Delega instalaciones.</p>
+
+<div class="card">
+💡 Pasas de técnico a dueño de negocio
+</div>
+
+<h2>Meta 90 días</h2>
+
+<ul>
+<li>Mes 1: $1,000+</li>
+<li>Mes 2: $2,000+</li>
+<li>Mes 3: $3,000+</li>
+</ul>
+`,
+
+l5: `
+<h1>Lección 6.5 — Proyecto final</h1>
+
+<p>Crear chatbot completo para un negocio real.</p>
+
+<h2>Incluye:</h2>
+
+<ul>
+<li>System prompt completo</li>
+<li>Chatbot en WhatsApp</li>
+<li>Captura de leads</li>
+<li>Agendamiento</li>
+<li>Propuesta comercial</li>
+</ul>
+
+<h2>Evaluación:</h2>
+
+<ul>
+<li>Responde correctamente</li>
+<li>Agenda citas</li>
+<li>Guarda datos</li>
+<li>Funciona en web</li>
+</ul>
+
+<div class="card">
+🔥 Ya tienes un producto vendible real
+</div>
+
+<h2>Conclusión</h2>
+
+<p>Ya tienes las habilidades para crear, vender y escalar chatbots con IA.</p>
+
+<div class="card">
+🚀 El siguiente paso es tomar acción
+</div>
+`
+
+};
+
+function load(id){
+  document.getElementById("content").innerHTML = data[id];
+}
+
+load('l1');
+
+</script>
+
+</body>
+</html>
