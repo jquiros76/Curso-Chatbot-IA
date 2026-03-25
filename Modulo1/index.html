@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Módulo 1 - Chatbots IA</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  color:white;
+}
+
+.sidebar{
+  width:260px;
+  height:100vh;
+  background:#0f172a;
+  position:fixed;
+  overflow:auto;
+}
+
+.sidebar h2{
+  padding:20px;
+  color:#38bdf8;
+}
+
+.sidebar button{
+  width:100%;
+  padding:15px;
+  background:none;
+  border:none;
+  color:white;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar button:hover{
+  background:#1e293b;
+}
+
+.content{
+  margin-left:260px;
+  padding:30px;
+  max-width:900px;
+}
+
+h1{color:#38bdf8;}
+h2{color:#22c55e;}
+
+p{
+  line-height:1.7;
+  margin-top:10px;
+}
+
+.card{
+  background:#0f172a;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+<h2>Módulo 1</h2>
+
+<button onclick="load('l1')">Lección 1.1</button>
+<button onclick="load('l2')">Lección 1.2</button>
+<button onclick="load('l3')">Lección 1.3</button>
+<button onclick="load('l4')">Lección 1.4</button>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+
+const data = {
+
+l1: `
+<h1>Lección 1.1 — ¿Qué es un chatbot con IA y cómo funciona?</h1>
+
+<p>Hola, bienvenido al curso de Chatbots con Inteligencia Artificial.</p>
+
+<p>En este curso vas a aprender a crear chatbots inteligentes para WhatsApp, Facebook Messenger y sitios web — sin escribir una sola línea de código.</p>
+
+<p>Empecemos por lo básico. ¿Qué es un chatbot?</p>
+
+<p>Un chatbot es un programa que responde mensajes de forma automática.</p>
+
+<p>Como si tuvieras un empleado disponible las 24 horas del día, los 7 días de la semana, que nunca se cansa, nunca se enferma y responde al instante.</p>
+
+<p>Pero hay una gran diferencia entre un chatbot normal y un chatbot con Inteligencia Artificial.</p>
+
+<p>Un chatbot normal es como un menú de opciones. El cliente escribe "1" para ventas, "2" para soporte. Es limitado y frustrante.</p>
+
+<p>Un chatbot con IA es diferente. Entiende lo que el cliente escribe en lenguaje natural.</p>
+
+<div class="card">
+Ejemplo:<br><br>
+Cliente: "quiero saber cuánto cuesta el producto azul"<br>
+Chatbot IA: entiende la intención y responde correctamente
+</div>
+
+<p>¿Cómo funciona por dentro?</p>
+
+<p>Muy simple. Cuando el cliente escribe un mensaje, ese mensaje va a una Inteligencia Artificial — como ChatGPT — que lo analiza, entiende el contexto y genera una respuesta natural.</p>
+
+<p>Todo en menos de 2 segundos.</p>
+
+<p>Tú solo configuras una vez cómo quieres que se comporte el chatbot.</p>
+
+<div class="card">
+💡 Luego la IA hace todo el trabajo automáticamente.
+</div>
+`,
+
+l2: `
+<h1>Lección 1.2 — Diferencia entre chatbot normal y chatbot con IA</h1>
+
+<p>Imagina que tienes una tienda de ropa y un cliente te escribe a las 11 de la noche.</p>
+
+<p>Con un chatbot tradicional, el cliente ve opciones como:</p>
+
+<div class="card">
+1. Ver productos<br>
+2. Precios<br>
+3. Horarios
+</div>
+
+<p>Si el cliente escribe algo diferente, el chatbot no entiende.</p>
+
+<p>Resultado: el cliente se frustra y se va.</p>
+
+<p>Ahora con IA:</p>
+
+<div class="card">
+Cliente: "quiero algo para una boda"<br><br>
+Bot IA: "¡Qué emocionante! Te recomiendo nuestra colección formal..."
+</div>
+
+<p>El chatbot entiende la intención y responde como un vendedor real.</p>
+
+<p>Ventajas:</p>
+
+<ul>
+<li>Responde preguntas no previstas</li>
+<li>Habla con tono natural</li>
+<li>Puede vender, agendar y captar datos</li>
+</ul>
+
+<div class="card">
+💡 Configuras una vez y funciona siempre.
+</div>
+`,
+
+l3: `
+<h1>Lección 1.3 — Casos de uso reales</h1>
+
+<p>Veamos cómo se usa esto en negocios reales.</p>
+
+<h2>Ventas automáticas</h2>
+
+<p>Un cliente pregunta por un producto y el chatbot recomienda y vende automáticamente.</p>
+
+<div class="card">
+📈 Resultado: aumento de ventas hasta 40%
+</div>
+
+<h2>Soporte</h2>
+
+<p>Empresas reducen hasta 65% de tickets repetitivos.</p>
+
+<h2>Reservas</h2>
+
+<p>El chatbot agenda citas automáticamente sin intervención humana.</p>
+
+<h2>Leads</h2>
+
+<p>Captura datos de clientes potenciales automáticamente.</p>
+
+<div class="card">
+💡 Esto no es futuro — ya está pasando.
+</div>
+`,
+
+l4: `
+<h1>Lección 1.4 — Herramientas del curso</h1>
+
+<p>Estas son las herramientas que vas a usar:</p>
+
+<ul>
+<li><b>OpenAI</b> → inteligencia del chatbot</li>
+<li><b>Make</b> → automatización</li>
+<li><b>Twilio / 360dialog</b> → WhatsApp</li>
+<li><b>ManyChat</b> → Messenger</li>
+<li><b>Tidio / Crisp</b> → web</li>
+</ul>
+
+<p>La mayoría tienen versión gratuita.</p>
+
+<div class="card">
+💡 No necesitas saber programar para usarlas.
+</div>
+`
+
+};
+
+function load(id){
+  document.getElementById("content").innerHTML = data[id];
+}
+
+load('l1');
+
+</script>
+
+</body>
+</html>
