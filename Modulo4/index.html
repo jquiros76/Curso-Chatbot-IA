@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Módulo 4 - Messenger Chatbots</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#020617;
+  color:white;
+}
+
+.sidebar{
+  width:260px;
+  height:100vh;
+  background:#0f172a;
+  position:fixed;
+  overflow:auto;
+}
+
+.sidebar h2{
+  padding:20px;
+  color:#38bdf8;
+}
+
+.sidebar button{
+  width:100%;
+  padding:15px;
+  background:none;
+  border:none;
+  color:white;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar button:hover{
+  background:#1e293b;
+}
+
+.content{
+  margin-left:260px;
+  padding:30px;
+  max-width:900px;
+}
+
+h1{color:#38bdf8;}
+h2{color:#22c55e;}
+
+p{
+  line-height:1.7;
+  margin-top:10px;
+}
+
+.card{
+  background:#0f172a;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+<h2>Módulo 4</h2>
+
+<button onclick="load('l1')">Lección 4.1</button>
+<button onclick="load('l2')">Lección 4.2</button>
+<button onclick="load('l3')">Lección 4.3</button>
+<button onclick="load('l4')">Lección 4.4</button>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+
+const data = {
+
+l1: `
+<h1>Lección 4.1 — Conectar tu página de Facebook a ManyChat</h1>
+
+<p>Facebook Messenger tiene más de 1,300 millones de usuarios activos.</p>
+
+<p>En este módulo vas a conectar tu chatbot con IA a Messenger para responder automáticamente todos los mensajes de tu página.</p>
+
+<h2>¿Por qué usar ManyChat?</h2>
+
+<p>Facebook requiere aprobaciones complejas para usar su API directamente.</p>
+
+<div class="card">
+💡 ManyChat ya tiene esa aprobación, por eso lo usamos.
+</div>
+
+<h2>Pasos:</h2>
+
+<p>1. Ve a manychat.com</p>
+<p>2. Regístrate con tu cuenta de Facebook</p>
+<p>3. Selecciona tu página de negocio</p>
+<p>4. Conecta y acepta permisos</p>
+
+<h2>Dashboard</h2>
+
+<ul>
+<li>Automation → flujos</li>
+<li>Contacts → usuarios</li>
+<li>Broadcast → mensajes masivos</li>
+</ul>
+
+<h2>Mensaje de bienvenida</h2>
+
+<p>Configura un saludo inicial con opciones claras.</p>
+
+<h2>Respuesta a comentarios</h2>
+
+<p>Cuando alguien comenta en tus posts, el bot puede escribirle automáticamente por privado.</p>
+
+<div class="card">
+🔥 Esta función puede triplicar tus conversaciones
+</div>
+`,
+
+l2: `
+<h1>Lección 4.2 — Integrar IA en ManyChat</h1>
+
+<p>ManyChat responde con textos fijos, pero la IA permite respuestas inteligentes.</p>
+
+<h2>Flujo completo:</h2>
+
+<div class="card">
+Cliente → Messenger → ManyChat → Make → OpenAI → ManyChat → Cliente
+</div>
+
+<h2>Pasos:</h2>
+
+<p>1. Crear webhook en Make</p>
+<p>2. Copiar URL</p>
+<p>3. Crear Flow en ManyChat</p>
+<p>4. Usar External Request</p>
+<p>5. Enviar mensaje a Make</p>
+
+<h2>En Make:</h2>
+
+<p>- Recibir webhook</p>
+<p>- Enviar a OpenAI</p>
+<p>- Generar respuesta</p>
+
+<h2>Respuesta:</h2>
+
+<p>Se devuelve a ManyChat y se envía al usuario.</p>
+
+<div class="card">
+⚠️ Parece complejo, pero se hace una vez y funciona siempre
+</div>
+`,
+
+l3: `
+<h1>Lección 4.3 — Flujos automáticos</h1>
+
+<h2>Flujo 1: Bienvenida</h2>
+
+<ul>
+<li>Saludo personalizado</li>
+<li>Presentación</li>
+<li>Opciones con botones</li>
+</ul>
+
+<h2>Flujo 2: Preguntas frecuentes</h2>
+
+<p>Respuestas rápidas para dudas comunes.</p>
+
+<ul>
+<li>Horarios</li>
+<li>Pagos</li>
+<li>Envíos</li>
+</ul>
+
+<h2>Flujo 3: Ventas</h2>
+
+<ul>
+<li>Detectar interés</li>
+<li>Mostrar producto</li>
+<li>Resolver objeciones</li>
+<li>Cerrar venta</li>
+</ul>
+
+<div class="card">
+💡 Usa flujos + IA para mejores resultados
+</div>
+`,
+
+l4: `
+<h1>Lección 4.4 — Práctica: Bot de Messenger con IA</h1>
+
+<p>Crearás chatbot para academia English Fast CR.</p>
+
+<h2>Funciones:</h2>
+
+<ul>
+<li>Responder preguntas</li>
+<li>Recomendar cursos</li>
+<li>Capturar leads</li>
+</ul>
+
+<h2>Flujos:</h2>
+
+<ul>
+<li>Bienvenida</li>
+<li>Ver cursos</li>
+<li>Captura de datos</li>
+</ul>
+
+<h2>Pruebas:</h2>
+
+<ul>
+<li>Interés en aprender inglés</li>
+<li>Consulta de precios</li>
+<li>Garantía</li>
+</ul>
+
+<div class="card">
+🔥 Ya tienes chatbot funcionando en Messenger con IA
+</div>
+`
+
+};
+
+function load(id){
+  document.getElementById("content").innerHTML = data[id];
+}
+
+load('l1');
+
+</script>
+
+</body>
+</html>
